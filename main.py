@@ -103,7 +103,9 @@ def get_args_parser():
 
 
 def main(args):
+    # 初始化分布式训练环境
     utils.init_distributed_mode(args)
+    # 获取代码仓库的提交信息
     print("git:\n  {}\n".format(utils.get_sha()))
 
     if args.frozen_weights is not None:

@@ -144,15 +144,23 @@ def make_coco_transforms(image_set):
     raise ValueError(f'unknown {image_set}')
 
 
+# 定义一个函数，用于构建COCO数据集，参数image_set表示数据集类型，args表示参数
 def build(image_set, args):
+    # 获取COCO路径
     root = Path(args.coco_path)
+    # 检查路径是否存在
     assert root.exists(), f'provided COCO path {root} does not exist'
+    # 数据集类型
     mode = 'instances'
+    # 构建路径字典
     PATHS = {
         "train": (root / "train2017", root / "annotations" / f'{mode}_train2017.json'),
         "val": (root / "val2017", root / "annotations" / f'{mode}_val2017.json'),
     }
 
+    # 获取图片文件夹和标注文件路径
     img_folder, ann_file = PATHS[image_set]
+    # 构建COCO数据集，并设置转换和返回mask
     dataset = CocoDetection(img_folder, ann_file, transforms=make_coco_transforms(image_set), return_masks=args.masks)
+    # 返回数据集
     return dataset
