@@ -2,15 +2,27 @@
 import torch.utils.data
 import torchvision
 
-from .coco import build as build_coco
+# from .coco import build as build_coco
 
-
+# 定义一个函数，从数据集中获取COCO API
 def get_coco_api_from_dataset(dataset):
+    '''
+    从数据集中获取COCO API
+    Args:
+        dataset: 数据集
+    Returns:
+        COCO 对象
+    '''
     for _ in range(10):
         # if isinstance(dataset, torchvision.datasets.CocoDetection):
         #     break
+        # 如果数据集是torchvision.datasets.CocoDetection类型，则跳出循环
+        if isinstance(dataset, torchvision.datasets.CocoDetection):
+            break
+        # 如果数据集是torch.utils.data.Subset类型，则将数据集设置为dataset.dataset
         if isinstance(dataset, torch.utils.data.Subset):
             dataset = dataset.dataset
+    # 如果数据集是torchvision.datasets.CocoDetection类型，则返回dataset.coco
     if isinstance(dataset, torchvision.datasets.CocoDetection):
         return dataset.coco
 
